@@ -34,7 +34,6 @@ const assignNumbersToSeats = (
       let currentRow = blocks[i][row];
       if (currentRow) {
         for (let seat = 0; seat < currentRow.length; seat++) {
-          // Assign Seat numbere if seat code matches
           if (currentRow[seat] === seatCode && seatCounter < totalPassenger) {
             seatCounter = seatCounter + 1;
             currentRow[seat] = seatCounter;
@@ -53,7 +52,7 @@ const assignNumbersToSeats = (
 };
 
 const airplaneSeatingalgodriver = (PlanSeatingGrid, totalPassengerCount) => {
-  const finalSeatingMap = generateSeats(PlanSeatingGrid);
+  const initialSeatingMap = generateSeats(PlanSeatingGrid);
   let totalPassenger = totalPassengerCount;
   let maxRow = 0;
 
@@ -64,30 +63,30 @@ const airplaneSeatingalgodriver = (PlanSeatingGrid, totalPassengerCount) => {
     }
   }
 
-  let [assignBlockA, seatCountA] = assignNumbersToSeats(
+  let [mapAfterAssigingAisleSeats, seatCountA] = assignNumbersToSeats(
     maxRow,
-    finalSeatingMap,
+    initialSeatingMap,
     0,
     "A",
     totalPassenger
   );
 
-  let [assignBlockW, seatCountW] = assignNumbersToSeats(
+  let [mapAfterAssigingWindowSeats, seatCountW] = assignNumbersToSeats(
     maxRow,
-    assignBlockA,
+    mapAfterAssigingAisleSeats,
     seatCountA,
     "W",
     totalPassenger
   );
-  let [assignBlockM] = assignNumbersToSeats(
+  let [finalSeatingsMap] = assignNumbersToSeats(
     maxRow,
-    assignBlockW,
+    mapAfterAssigingWindowSeats,
     seatCountW,
     "M",
     totalPassenger
   );
 
-  return assignBlockM;
+  return finalSeatingsMap;
 };
 console.log(
   airplaneSeatingalgodriver(
